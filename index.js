@@ -2,9 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 
-
 const port = 4000;
-
 
 // Middleware and Body-parser
 app.use(cors())
@@ -12,60 +10,56 @@ app.use(express.json());
 
 
 
+
 // Create / POST request Method 
-app.post('/user', async (req,res) => {
+app.post('/user', async (req, res) => {
     // console.log('Hitting the post!');
     const newUser = {
         name: req.body.userName,
         password: req.body.password,
     }
-
-    // const result = await userCollection.insertOne(newUser);
-
-    res.send(newUser);
+    const result = await userCollection.insertOne(newUser);
+    // res.send(result);
+    res.send("Inserted user:", newUser );
 });
 
 
+
 // Read/ GET request Method
-app.get('/user', (req,res) => {
-
-    const user = {
-        name: 'Soad Anam',
-        PassWord: 123123,
-    }
-
-    res.send(user);
+app.get('/user', async (req, res) => {
+    const specificUser = req.body.name;
+    const cursor = userCollection.find(specificUser);
+    const result = await cursor.toArray();
+    // res.send(result);
+    res.send("User detail:", user );
 });
 
 
 
 // Delete / DELETE request Method
 app.delete('/deleteUser', async (req, res) => {
-    const newUser = {
+    const user = {
         name: req.body.userName,
         password: req.body.password,
     }
-
-    const deleteResult = await userCollection.deleteOne(newUser);
-
-    res.send(deleteResult);
+    const deleteResult = await userCollection.deleteOne(user);
+    // res.send(deleteResult);
+    res.send("Deleted user:", user );
 });
 
 
 
-// Update / PUT request Method
+// Update / PUT / PATCH request Method
 app.patch('/updateUser', async (req, res) => {
-    const name = req.body.useName;
-
+    const name = "James Bond"
     const newUser = {
         name: req.body.userName,
         password: req.body.password,
     }
-
-    const filter = {name};
-    const UpdatedResult = await packagesCollection.updateOne(filter, newUser);
-
-    res.send(UpdatedResult);
+    const filter = { name };
+    const UpdatedResult = await userCollection.updateOne(filter, newUser);
+    // res.send(UpdatedResult);
+    res.send("Updated user:", newUser);
 });
 
 
