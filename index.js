@@ -20,7 +20,8 @@ app.post('/user', async (req,res) => {
         password: req.body.password,
     }
 
-    const result1 = await userCollection.insertOne(newUser);
+    // const result = await userCollection.insertOne(newUser);
+
     res.send(newUser);
 });
 
@@ -46,12 +47,26 @@ app.delete('/deleteUser', async (req, res) => {
     }
 
     const deleteResult = await userCollection.deleteOne(newUser);
-    res.send(result);
+
+    res.send(deleteResult);
 });
 
 
 
 // Update / PUT request Method
+app.patch('/updateUser', async (req, res) => {
+    const name = req.body.useName;
+
+    const newUser = {
+        name: req.body.userName,
+        password: req.body.password,
+    }
+
+    const filter = {name};
+    const UpdatedResult = await packagesCollection.updateOne(filter, newUser);
+
+    res.send(UpdatedResult);
+});
 
 
 
