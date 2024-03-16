@@ -10,7 +10,6 @@ app.use(express.json());
 
 
 
-
 // Create / POST request Method 
 app.post('/user', async (req, res) => {
     // console.log('Hitting the post!');
@@ -24,7 +23,6 @@ app.post('/user', async (req, res) => {
 });
 
 
-
 // Read/ GET request Method
 app.get('/user', async (req, res) => {
     const specificUser = req.body.name;
@@ -33,7 +31,6 @@ app.get('/user', async (req, res) => {
     // res.send(result);
     res.send("User detail:", user );
 });
-
 
 
 // Delete / DELETE request Method
@@ -48,20 +45,18 @@ app.delete('/deleteUser', async (req, res) => {
 });
 
 
-
 // Update / PUT / PATCH request Method
 app.patch('/updateUser', async (req, res) => {
-    const name = "James Bond"
+    const name = req.body.name;
     const newUser = {
-        name: req.body.userName,
-        password: req.body.password,
+        name: "James Bond",
+        password: "007007",
     }
     const filter = { name };
     const UpdatedResult = await userCollection.updateOne(filter, newUser);
     // res.send(UpdatedResult);
     res.send("Updated user:", newUser);
 });
-
 
 
 app.listen(port, () => {
